@@ -1,0 +1,169 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h1 *ngIf="mode == 1" class="mb-0">Visualizar</h1>
+          <h1 *ngIf="mode == 2" class="mb-0">Crear</h1>
+          <h1 *ngIf="mode == 3" class="mb-0">Actualizar</h1>
+        </div>
+        <form class="form" [formGroup]="theFormGroup">
+          <div class="card-body">
+            <!-- Campo ID -->
+            <div class="row">
+              <div class="col-4">
+                <label>id:</label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="number"
+                  class="form-control"
+                  disabled
+                  [(ngModel)]="lot.id"
+                  formControlName="id"
+                />
+              </div>
+            </div>
+            <br />
+            <!-- Campo peso -->
+            <div class="row">
+              <div class="col-4">
+                <label>Peso:</label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="lot.weight"
+                  formControlName="weight"
+                />
+                <div
+                  *ngIf="
+                    getTheFormGroup.weight.errors &&
+                    (getTheFormGroup.weight.dirty ||
+                      getTheFormGroup.weight.touched ||
+                      trySend)
+                  "
+                >
+                  <!-- si el form group location tine un error de requerido colocamos un mensaje de requerido -->
+                  <strong
+                    *ngIf="getTheFormGroup.weight.errors.required"
+                    class="msnError text-danger"
+                    >Requerido</strong
+                  >
+                  <strong
+                    *ngIf="getTheFormGroup.weight.errors.min"
+                    class="msnError text-danger"
+                    >El valor tiene que ser mayor a 1</strong
+                  >
+                  <strong
+                    *ngIf="getTheFormGroup.weight.errors.min"
+                    class="msnError text-danger"
+                    >El valor tiene que ser mnor a 1001</strong
+                  >
+                </div>
+              </div>
+            </div>
+            <br />
+            <!-- Campo cantidad x kilo -->
+            <div class="row">
+              <div class="col-4">
+                <label>Cantidad x kilo:</label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="lot.quantity_kg"
+                  formControlName="quantity_kg"
+                />
+                <div
+                  *ngIf="
+                    getTheFormGroup.weight.errors &&
+                    (getTheFormGroup.weight.dirty ||
+                      getTheFormGroup.weight.touched ||
+                      trySend)
+                  "
+                >
+                  <!-- si el form group location tine un error de requerido colocamos un mensaje de requerido -->
+                  <strong
+                    *ngIf="getTheFormGroup.quantity_kg.errors.required"
+                    class="msnError text-danger"
+                    >Requerido</strong
+                  >
+                  <strong
+                    *ngIf="getTheFormGroup.quantity_kg.errors.min"
+                    class="msnError text-danger"
+                    >El valor tiene que ser mayor a 1</strong
+                  >
+                  <strong
+                    *ngIf="getTheFormGroup.quantity_kg.errors.min"
+                    class="msnError text-danger"
+                    >El valor tiene que ser menor a 1001</strong
+                  >
+                </div>
+              </div>
+            </div>
+            <br />
+            <!-- Campo ruta -->
+            <div class="row">
+              <div class="col-4">
+                <label>Ruta:</label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="lot.route_id"
+                />
+                <!--  -->
+              </div>
+            </div>
+            <br />
+
+            <!-- Campo orden -->
+            <div class="row">
+              <div class="col-4">
+                <label>Orden:</label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="lot.route_id"
+                />
+              </div>
+            </div>
+            <br />
+            <!--Botones-->
+            <div class="row">
+              <div class="col-4"></div>
+              <div class="col-8">
+                <!-- <button *ngIf="mode == 1" class="btn btn-success btn-block" (click)="view()">
+                                                                      Visualizar
+                                                                  </button> -->
+                <button
+                  *ngIf="mode == 2"
+                  class="btn btn-success btn-block"
+                  (click)="create()"
+                >
+                  Crear
+                </button>
+                <button
+                  *ngIf="mode == 3"
+                  class="btn btn-success btn-block"
+                  (click)="update()"
+                >
+                  Actualizar
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

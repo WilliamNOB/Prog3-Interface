@@ -1,0 +1,88 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 class="mb-0" *ngIf="mode === 1">Visualizar</h3>
+          <h3 class="mb-0" *ngIf="mode === 2">Crear</h3>
+          <h3 class="mb-0" *ngIf="mode === 3">Actualizar</h3>
+        </div>
+        <form [formGroup]="theFormGroup" class="form">
+          <div class="card-body">
+            <div class="container">
+              <div class="row mb-3">
+                <div class="col-4"><label>Id:</label></div>
+                <div class="col-8">
+                  <input
+                    type="text"
+                    formControlName="id"
+                    class="form-control"
+                    [disabled]="mode === 1 || mode === 3 "
+                  />
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-4"><label>Número de domicilio:</label></div>
+                <div class="col-8">
+                  <input type="text" formControlName="door_number" class="form-control" />
+                  <div *ngIf="getTheFormGroup.door_number.errors && (getTheFormGroup.door_number.dirty || getTheFormGroup.door_number.touched || trySend)">
+                    <strong *ngIf="getTheFormGroup.door_number.errors.required" class="msnError">Requerido</strong>
+                    <strong *ngIf="getTheFormGroup.door_number.errors.minlength || getTheFormGroup.door_number.errors.maxlength" class="msnError">Inválido</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-4"><label>Barrio:</label></div>
+                <div class="col-8">
+                  <input type="text" formControlName="neighborhood" class="form-control" />
+                  <div *ngIf="getTheFormGroup.neighborhood.errors && (getTheFormGroup.neighborhood.dirty || getTheFormGroup.neighborhood.touched || trySend)">
+                    <strong *ngIf="getTheFormGroup.neighborhood.errors.required" class="msnError">Requerido</strong>
+                    <strong *ngIf="getTheFormGroup.neighborhood.errors.minlength || getTheFormGroup.neighborhood.errors.maxlength" class="msnError">Inválido</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-4"><label>Calle:</label></div>
+                <div class="col-8">
+                  <input type="text" formControlName="street" class="form-control" />
+                  <div *ngIf="getTheFormGroup.street.errors && (getTheFormGroup.street.dirty || getTheFormGroup.street.touched || trySend)">
+                    <strong *ngIf="getTheFormGroup.street.errors.required" class="msnError">Requerido</strong>
+                    <strong *ngIf="getTheFormGroup.street.errors.minlength || getTheFormGroup.street.errors.maxlength" class="msnError">Inválido</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-4"><label>Id Municipio:</label></div>
+                <div class="col-8">
+                  <input type="text" formControlName="municipality_id" class="form-control" />
+                  <div *ngIf="getTheFormGroup.municipality_id.errors && (getTheFormGroup.municipality_id.dirty || getTheFormGroup.municipality_id.touched || trySend)">
+                    <strong *ngIf="getTheFormGroup.municipality_id.errors.required" class="msnError">Requerido</strong>
+                    <strong *ngIf="getTheFormGroup.municipality_id.errors.minlength || getTheFormGroup.municipality_id.errors.maxlength" class="msnError">Inválido</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-4"><label>Nombre Municipio:</label></div>
+                <div class="col-8">
+                  <input type="text" formControlName="municipality_name" class="form-control" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4"></div>
+                <div class="col-8">
+                  <button *ngIf="mode === 2" class="btn btn-primary btn-lg btn-block" (click)="create()">
+                    Crear
+                  </button>
+                  <button *ngIf="mode === 3" class="btn btn-primary btn-lg btn-block" (click)="update()">
+                    Actualizar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
