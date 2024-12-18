@@ -1,4 +1,4 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8"></div>
 <div class="container-fluid mt--7">
   <div class="row">
     <div class="col">
@@ -22,18 +22,7 @@
                   />
                 </div>
               </div>
-              <div class="row mb-3">
-                <div class="col-4"><label>Id Restaurante:</label></div>
-                <div class="col-8">
-                  <input type="text" formControlName="restaurant_id" class="form-control" />
-                </div>
-              </div>
-              <div class="row mb-3">
-                <div class="col-4"><label>Id Hotel:</label></div>
-                <div class="col-8">
-                  <input type="text" formControlName="hotel_id" class="form-control" />
-                </div>
-              </div>
+             
               <div class="row mb-3">
                 <div class="col-4"><label>Monto Restaurante:</label></div>
                 <div class="col-8">
@@ -49,15 +38,40 @@
               <div class="row mb-3">
                 <div class="col-4"><label>Fecha Servicio Restaurante:</label></div>
                 <div class="col-8">
-                  <input type="text" formControlName="date_service_restaurant" class="form-control" />
+                  <input type="date" formControlName="date_service_restaurant" class="form-control" />
                 </div>
               </div>
               <div class="row mb-3">
                 <div class="col-4"><label>Fecha Servicio Hotel:</label></div>
                 <div class="col-8">
-                  <input type="text" formControlName="date_service_hotel" class="form-control" />
+                  <input type="date" formControlName="date_service_hotel" class="form-control" />
                 </div>
               </div>
+              <!--------------------------------------------------------------------------------------------->
+              <div class="row">
+                  <div class="col-4">
+                      Restaurante:
+                  </div>
+                  <div class="col-8">
+                    <select class="form-control" formControlName="restaurant_id" [(ngModel)]="expense.restaurant.id">
+                      <option *ngFor="let option of restaurants" [value]="option.id">Nombre: {{option.name}} - Ubicación:{{option.ubicacion}} - Telefono: {{option.telefono}}</option>
+                    </select>
+
+                  </div>
+              </div>
+               <!-------------------------------------------------------------------------------------------->
+               <div class="row">
+                <div class="col-4">
+                    Hotel:
+                </div>
+                <div class="col-8">
+                  <select class="form-control" formControlName="hotel_id" [(ngModel)]="expense.hotel.id">
+                    <option *ngFor="let option of hotels" [value]="option.id">Nombre: {{option.name}} - Ubicación:{{option.ubicacion}} - Telefono: {{option.telefono}}</option>
+                  </select>
+
+                </div>
+            </div>
+            <!-------------------------------------------------------------------------------------------->
               <div class="row">
                 <div class="col-4"></div>
                 <div class="col-8">

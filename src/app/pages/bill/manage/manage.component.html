@@ -1,4 +1,4 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8"></div>
 <!-- Page content -->
 <div class="container-fluid mt--7">
   <!-- Table -->
@@ -50,6 +50,36 @@
                 </div>
               </div>
             </div>
+
+            <br />
+            <div class="row">
+              <div class="col-4">
+                <label>Cuota:</label>
+              </div>
+              <div class="col-8">
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="bill.quota"
+                  [disabled]="mode == 1"
+                  formControlName="quota"
+                />
+                <div
+                  *ngIf="
+                    getTheFormGroup.quota.errors &&
+                    (getTheFormGroup.quota.dirty ||
+                      getTheFormGroup.quota.touched ||
+                      trySend)
+                  "
+                >
+                  <strong
+                    *ngIf="getTheFormGroup.quota.errors.required"
+                    class="msnError"
+                    >Requerido</strong
+                  >
+                </div>
+              </div>
+            </div>
             <br />
             <div class="row">
               <div class="col-4">
@@ -86,152 +116,35 @@
             </div>
             <br />
 
+            <br />
+            <!-- Cuota Section -->
             <div class="row">
               <div class="col-4">
-                <label>Estado</label>
+                Cuota:
               </div>
               <div class="col-8">
-                <input
-                  type="string"
-                  class="form-control"
-                  [(ngModel)]="bill.state"
-                  [disabled]="mode == 1"
-                />
+                <select class="form-control" formControlName="quota_id" [(ngModel)]="bill.quotas.id">
+                  <option *ngFor="let option of quotas" [value]="option.id">Cuota: {{option.payment_date}} - Contrato:{{option.contract_id}}</option>
+                </select>
               </div>
             </div>
             <br />
+            <!-- Gasto Section -->
             <div class="row">
-              <div class="col-4"></div>
+              <div class="col-4">
+                Gasto:
+              </div>
               <div class="col-8">
-                <br />
+                <select class="form-control" formControlName="spent_id" [(ngModel)]="bill.spents.id">
+                  <option *ngFor="let option of spent" [value]="option.id">Servicio: {{option.service_id}} - Viatico:{{option.travel_expense_id}}</option>
+                </select>
+              </div>
+            </div>
+            <br />
 
-                <div class="row">
-                  <div class="col-4">
-                    <label>Cuotas</label>
-                  </div>
-                  <div class="col-8">
-                    <input
-                      type="number"
-                      class="form-control"
-                      [(ngModel)]="bill.quotas"
-                      [disabled]="mode == 1"
-                      formControlName="quotas"
-                    />
-                    <div
-                      *ngIf="
-                        getTheFormGroup.quotas.errors &&
-                        (getTheFormGroup.quotas.dirty ||
-                          getTheFormGroup.quotas.touched ||
-                          trySend)
-                      "
-                    >
-                      <strong
-                        *ngIf="getTheFormGroup.quotas.errors.required"
-                        class="msnError"
-                        >Requerido</strong
-                      >
-                      <strong
-                        *ngIf="getTheFormGroup.quotas.errors.pattern"
-                        class="msnError"
-                        >El valor debe ser numerico</strong
-                      >
-                    </div>
-                  </div>
-                </div>
-                <br />
-
-            <div class="row">
-              <div class="col-4">
-                <label>Id del pago</label>
-              </div>
-              <div class="col-8">
-                <input
-                  type="number"
-                  class="form-control"
-                  [(ngModel)]="bill.payment_id"
-                  [disabled]="mode == 1"
-                  formControlName="quota_id"
-                />
-                <div
-                  *ngIf="
-                    getTheFormGroup.payment_id.errors &&
-                    (getTheFormGroup.payment_id.dirty ||
-                      getTheFormGroup.payment_id.touched ||
-                      trySend)
-                  "
-                >
-                  <strong
-                    *ngIf="getTheFormGroup.payment_id.errors.required"
-                    class="msnError"
-                    >Requerido</strong
-                  >
-                  <strong
-                    *ngIf="getTheFormGroup.payment_id.errors.pattern"
-                    class="msnError"
-                    >Debe ser un valor numerico</strong
-                  >
-                </div>
-              </div>
-            </div>
-            <br />
-            <div class="row">
-              <div class="col-4">
-                <label>Id del gasto</label>
-              </div>
-              <div class="col-8">
-                <input
-                  type="number"
-                  class="form-control"
-                  [(ngModel)]="bill.spent_id"
-                  [disabled]="mode == 1"
-                  formControlName="expense_id"
-                />
-                <div
-                  *ngIf="
-                    getTheFormGroup.spent_id.errors &&
-                    (getTheFormGroup.spent_id.dirty ||
-                      getTheFormGroup.spent_id.touched ||
-                      trySend)
-                  "
-                >
-                  <strong
-                    *ngIf="getTheFormGroup.spent_id.errors.required"
-                    class="msnError"
-                    >Requerido</strong
-                  >
-                  <strong
-                    *ngIf="getTheFormGroup.spent_id.errors.pattern"
-                    class="msnError"
-                    >Debe ser un valor numerico</strong
-                  >
-                </div>
-              </div>
-            </div>
-            <br />
-            
-                <!-- <button
-                *ngIf="mode == 1"
-                class="btn btn-success btn-block"
-                (click)="view()"
-              >
-                Visualizar
-              </button> -->
-                <button
-                  *ngIf="mode == 2"
-                  class="btn btn-success btn-block"
-                  (click)="create()"
-                >
-                  Crear
-                </button>
-                <button
-                  *ngIf="mode == 3"
-                  class="btn btn-success btn-block"
-                  (click)="update()"
-                >
-                  Actualizar
-                </button>
-              </div>
-            </div>
+            <!-- Buttons -->
+            <button *ngIf="mode == 2" class="btn btn-success btn-block" (click)="create()">Crear</button>
+            <button *ngIf="mode == 3" class="btn btn-success btn-block" (click)="update()">Actualizar</button>
           </div>
         </form>
       </div>

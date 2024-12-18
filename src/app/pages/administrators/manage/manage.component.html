@@ -1,4 +1,4 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
    
 </div>
 <!-- Page content -->
@@ -30,6 +30,19 @@
 
                         </div>
                     </div>
+<!--------------------------------------------------------------------------------------------->
+                    <div class="row">
+                        <div class="col-4">
+                            Servicio:
+                        </div>
+                        <div class="col-8">
+                          <select class="form-control" formControlName="service_id" [(ngModel)]="administrator.service.id">
+                            <option *ngFor="let option of service" [value]="option.id">ID: {{option.id}}- Monto:{{option.amount}} - Fecha:{{option.date_service}} - Contrato: {{option.contract_id}}</option>
+                          </select>
+      
+                        </div>
+                    </div>
+     <!--------------------------------------------------------------------------------------------->
                     <div class="row">
                         <div class="col-4">
                             

@@ -1,4 +1,4 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
    
 </div>
 <!-- Page content -->
@@ -12,56 +12,110 @@
                     <h2 *ngIf="mode==2">Crear</h2>
                     <h2 *ngIf="mode==3">Actualizar</h2>
                 </div>
-               <div class="card-body">
-                <div class="container">
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Id:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="vehicle.id" disabled/>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Placa:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="vehicle.plate" [disabled]="mode==1"/>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Tipo:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="vehicle.type" [disabled]="mode==1"/> 
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Capacidad:</label></div>
-                        <div class="col-8">
-                            <input type="number" class="form-control" [(ngModel)]="vehicle.capacitity_kg" [disabled]="mode==1"/>
-                        </div>
-                    </div>                    
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Estado:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="vehicle.state" [disabled]="mode==1"/>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Licencia de transito:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="vehicle.transit_license" [disabled]="mode==1"/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">
-                            
-                        </div>
-                        <div class="col-8">
-                            <button *ngIf="mode==2" (click)="create()" type="button" class="btn btn-outline-info btn-lgn btn-block">Crear</button>
-                            <button *ngIf="mode==3" (click)="update()" type="button" class="btn btn-outline-success btn-lgn btn-block">Actualizar</button>
-                        </div>
+                <form [formGroup] ="theFormGroup">
+                    <div class="card-body">
+                        <div class="container">
+                            <!--ID-->
+                            <div class="row mb-1">
+                                <div class="col-4"><label>Id:</label></div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" [(ngModel)]="vehicle.id" disabled/>
+                                </div>
+                            </div>
+                            <!--PLACA-->
+                            <div class="row mb-1">
+                                <div class="col-4"><label>Placa:</label></div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" [(ngModel)]="vehicle.plate" [disabled]="mode==1"
+                                    formControlName="plate"
+                                        [class.is-invalid]="getTheFormGroup.plate?.errors && (getTheFormGroup.plate?.dirty || getTheFormGroup.plate?.touched || trySend)"
+                                        [class.is-valid]="!getTheFormGroup.plate?.errors && (getTheFormGroup.plate?.dirty || getTheFormGroup.plate?.touched)" />
+                                    <div *ngIf="getTheFormGroup.plate?.errors && (getTheFormGroup.plate?.dirty || getTheFormGroup.plate?.touched || trySend)" class="invalid-feedback">
+                                        <strong *ngIf="getTheFormGroup.plate?.errors.required">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.plate?.errors.maxlength">Máximo 10 caracteres</strong>
+                                    </div>
+                                    <div *ngIf="!getTheFormGroup.plate?.errors && (getTheFormGroup.plate?.dirty || getTheFormGroup.plate?.touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                </div>
+                            </div>
+                            <!--TIPO-->
+                            <div class="row mb-1">
+                                <div class="col-4"><label>Tipo:</label></div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" [(ngModel)]="vehicle.type" [disabled]="mode==1"/> 
+                                </div>
+                            </div>
+                            <!--CAPACIDAD-->
+                            <div class="row mb-1">
+                                <div class="col-4"><label>Capacidad:</label></div>
+                                <div class="col-8">
+                                    <input type="number" class="form-control" [(ngModel)]="vehicle.capacitity_kg" [disabled]="mode==1"
+                                    formControlName="capacitity_kg"
+                                        [class.is-invalid]="getTheFormGroup.capacitity_kg?.errors && (getTheFormGroup.capacitity_kg?.dirty || getTheFormGroup.capacitity_kg?.touched || trySend)"
+                                        [class.is-valid]="!getTheFormGroup.capacitity_kg?.errors && (getTheFormGroup.capacitity_kg?.dirty || getTheFormGroup.capacitity_kg?.touched)" />
+                                    <div *ngIf="getTheFormGroup.capacitity_kg?.errors && (getTheFormGroup.capacitity_kg?.dirty || getTheFormGroup.capacitity_kg?.touched || trySend)" class="invalid-feedback">
+                                        <strong *ngIf="getTheFormGroup.capacitity_kg?.errors.required">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.capacitity_kg?.errors.min">Debe ser mayor a 0</strong>
+                                    </div>
+                                    <div *ngIf="!getTheFormGroup.capacitity_kg?.errors && (getTheFormGroup.capacitity_kg?.dirty || getTheFormGroup.capacitity_kg?.touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                </div>
+                            </div>   
+                            <!--ESTADO-->                 
+                            <div class="row mb-1">
+                                <div class="col-4">
+                                    <label for="state" class="form-label">Estado:</label>
+                                </div>
+                                <div class="col-8 position-relative">
+                                    <select id="state" class="form-select" formControlName="state" [disabled]="mode == 1"
+                                        [class.is-invalid]="getTheFormGroup.state?.errors && (getTheFormGroup.state?.dirty || getTheFormGroup.state?.touched || trySend)"
+                                        [class.is-valid]="!getTheFormGroup.state?.errors && (getTheFormGroup.state?.dirty || getTheFormGroup.state?.touched)">
+                                        <option value="" disabled selected>Seleccione un estado</option>
+                                        <option value="Activo">Activo</option>
+                                        <option value="Inactivo">Inactivo</option>
+                                        <option value="Mantenimiento">Mantenimiento</option>
+                                    </select>
+                                    <div *ngIf="getTheFormGroup.state?.errors && (getTheFormGroup.state?.dirty || getTheFormGroup.state?.touched || trySend)" class="invalid-feedback">
+                                        <strong *ngIf="getTheFormGroup.state?.errors.required">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.state?.errors.pattern">Estado inválido</strong>
+                                    </div>
+                                    <div *ngIf="!getTheFormGroup.state?.errors && (getTheFormGroup.state?.dirty || getTheFormGroup.state?.touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                </div>
+                            </div>
+                            <!--LICENCIA TRANSITO-->
+                            <div class="row mb-1">
+                                <div class="col-4"><label>Licencia de transito:</label></div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" [(ngModel)]="vehicle.transit_license" [disabled]="mode==1"
+                                    formControlName="transit_license"
+                                        [class.is-invalid]="getTheFormGroup.transit_license?.errors && (getTheFormGroup.transit_license?.dirty || getTheFormGroup.transit_license?.touched || trySend)"
+                                        [class.is-valid]="!getTheFormGroup.transit_license?.errors && (getTheFormGroup.transit_license?.dirty || getTheFormGroup.transit_license?.touched)" />
+                                    <div *ngIf="getTheFormGroup.transit_license?.errors && (getTheFormGroup.transit_license?.dirty || getTheFormGroup.transit_license?.touched || trySend)" class="invalid-feedback">
+                                        <strong *ngIf="getTheFormGroup.transit_license?.errors.required">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.transit_license?.errors.pattern">Formato inválido</strong>
+                                    </div>
+                                    <div *ngIf="!getTheFormGroup.transit_license?.errors && (getTheFormGroup.transit_license?.dirty || getTheFormGroup.transit_license?.touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    
+                                </div>
+                                <div class="col-8">
+                                    <button *ngIf="mode==2" (click)="create()" type="button" class="btn btn-outline-info btn-lgn btn-block">Crear</button>
+                                    <button *ngIf="mode==3" (click)="update()" type="button" class="btn btn-outline-success btn-lgn btn-block">Actualizar</button>
+                                </div>
 
+                            </div>
+                        </div>
                     </div>
-                </div>
-               </div>
+                </form>
             </div>
         </div>
     </div>

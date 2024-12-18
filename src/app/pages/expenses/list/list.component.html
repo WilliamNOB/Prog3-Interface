@@ -1,4 +1,4 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
    
 </div>
 <!-- Page content -->
@@ -25,8 +25,6 @@
                     <thead>
                         <tr>
                             <th class="col-1">ID</th>
-                            <th class="col-2">HOTEL</th>
-                            <th class="co-3l">RESTAURANTE</th>
                             <th class="col-4">$ HOTEL</th>
                             <th class="col-4">$ RESTAURANTE</th>
                             <th class="col-4">FECHA RESTAURANTE</th>
@@ -36,8 +34,8 @@
                     <tbody>
                         <tr *ngFor="let actual of expenses">
                           <td>{{actual.id}}</td>
-                          <td>{{actual.restaurant_id}}</td>
-                          <td>{{actual.hotel_id}}</td>
+                         <!--<td>{{actual.restaurant_id}}</td>-->
+                         <!--<td>{{actual.hotel_id}}</td>--> 
                           <td>{{actual.amount_hotel}}</td>
                           <td>{{actual.amount_restaurant}}</td>
                           <td>{{actual.date_service_hotel}}</td>

@@ -24,15 +24,45 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
-  login(){
+  login() {
+    this.theSecurityService.login(this.theUser).subscribe({
+      next: (data) => {
+        console.log("RESPUESTA" + JSON.stringify(data));
+        // Redirigir al flujo de 2FA
+        Swal.fire(
+          'Código 2FA enviado',
+          'Por favor verifica el código en tu correo electrónico.',
+          'info'
+        );
+        localStorage.setItem('sesionTemporal', JSON.stringify(data)); // Almacenar sesión temporal
+        this.router.navigate(['login-2FA']);
+      },
+      error: (error) => {
+        Swal.fire('Autenticación inválida', 'Usuario o contraseña incorrecta', 'error');
+      },
+    });
+  }
+  
+
+  register(){
+    this.router.navigate(["register"])
+  }
+  resetPassword(){
+    this.router.navigate(['resetPassword'])
+  }
+
+}
+/*
+login(){
     this.theSecurityService.login(this.theUser).subscribe({
       next:(data)=>{
+        console.log("RESPUESTA"+JSON.stringify(data))
         this.theSecurityService.saveSession(data)
-        this.router.navigate(['dashboard'])
+        this.router.navigate(['login-2FA'])
   },
   error:(error)=>{
     Swal.fire("Autenticaicon invalida", "Usuario o contraseña incorrecta", "error")
 }
     })
   }
-}
+*/

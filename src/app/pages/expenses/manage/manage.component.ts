@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Expense } from 'src/app/models/expense.model';
+import { Hotel } from 'src/app/models/hotel.model';
+import { Restaurant } from 'src/app/models/restaurant.model';
 import { ExpenseService } from 'src/app/services/expense.service';
+import { HotelService } from 'src/app/services/hotel.service';
+import { RestaurantService } from 'src/app/services/restaurant.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,18 +19,37 @@ export class ManageComponent implements OnInit {
   mode: number; // mode=1 -> View, mode=2 -> create, mode=3 -> update
   theFormGroup: FormGroup;
   trySend: boolean; // Indica si la persona hizo un intento de enviar información
+  restaurants:Restaurant[]
+  hotels: Hotel[];
 
   constructor(
     private expeseService: ExpenseService,
     private router: Router,
     private activateRoute: ActivatedRoute,
-    private theFormBuilder: FormBuilder
+    private theFormBuilder: FormBuilder,
+    private restautanrService: RestaurantService,
+    private hotelService: HotelService
   ) {
-    this.expense = { id: 0, restaurant_id: 0, hotel_id: 0, amount_hotel: 0, amount_restaurant: 0, date_service_hotel: "", date_service_restaurant: ""};
+    this.expense = { id: 0, /*restaurant_id: 0*//*, hotel_id: 0,*/ amount_hotel: 0, amount_restaurant: 0, date_service_hotel: "", date_service_restaurant: "",
+      restaurant: { id: 0/*, name: "", ubicacion: "", telefono: ""*/ }, hotel: { id: 0/*, name: "", ubicacion: "", telefono: "" */}
+    };
+    this.restaurants=[]
+    this.hotels = [];
     this.mode = 0;
     this.configFormGroup();
     this.trySend = false;
   }
+
+  restaurantsList(){
+    this.restautanrService.list().subscribe(data =>{
+      this.restaurants=data
+  })
+}
+hotelsList(){
+  this.hotelService.list().subscribe(data =>{
+    this.hotels=data
+})
+}
 
   ngOnInit(): void {
     const currentUrl = this.activateRoute.snapshot.url.join('/');
@@ -44,6 +67,8 @@ export class ManageComponent implements OnInit {
     }
 
     // Configurar el estado de los campos basado en el modo
+    this.restaurantsList();
+    this.hotelsList();
     this.setFormMode();
   }
 

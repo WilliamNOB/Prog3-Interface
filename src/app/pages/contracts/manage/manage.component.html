@@ -1,4 +1,4 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
    
 </div>
 <!-- Page content -->
@@ -12,44 +12,89 @@
                     <h2 *ngIf="mode==2">Crear</h2>
                     <h2 *ngIf="mode==3">Actualizar</h2>
                 </div>
-               <div class="card-body">
-                <div class="container">
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Id:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="contract.id" disabled/>
+            <form [formGroup] ="theFormGroup">    
+                <div class="card-body">
+                    <div class="container">
+                        <!--ID-->
+                        <div class="row mb-1">
+                            <div class="col-4"><label>Id:</label></div>
+                            <div class="col-8">
+                                <input type="text" class="form-control" [(ngModel)]="contract.id" disabled/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Descripción:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="contract.description" [disabled]="mode==1"/>
+                        <!--DESCRIPCIÓN-->
+                        <div class="row mb-1">
+                            <div class="col-4">
+                                <label for="description" class="form-label">Descripción:</label>
+                            </div>
+                            <div class="col-8 position-relative">
+                                <input type="text" id="description" class="form-control" [(ngModel)]="contract.description" [disabled]="mode==1" 
+                                formControlName="description"
+                                [class.is-invalid]="getTheFormGroup.description.errors && (getTheFormGroup.description.dirty || getTheFormGroup.description.touched || trySend)" 
+                                [class.is-valid]="!getTheFormGroup.description.errors && (getTheFormGroup.description.dirty || getTheFormGroup.description.touched)" 
+                                />
+                                <!-- Mensaje de validación -->
+                                <div *ngIf="getTheFormGroup.description.errors && (getTheFormGroup.description.dirty || getTheFormGroup.description.touched || trySend)" class="invalid-feedback">
+                                    <strong *ngIf="getTheFormGroup.description.errors.required">Requerido</strong>
+                                    <strong *ngIf="getTheFormGroup.description.errors.maxlength">Máximo 400 caracteres</strong>
+                                  </div>
+                                  <div *ngIf="!getTheFormGroup.description.errors && (getTheFormGroup.description.dirty || getTheFormGroup.description.touched)" class="valid-feedback">
+                                    ¡Correcto!
+                                  </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Fecha:</label></div>
-                        <div class="col-8">
-                            <input type="datetime-local" class="form-control" [(ngModel)]="contract.date" [disabled]="mode==1"/> 
+                        <!--FECHA-->
+                        <div class="row mb-1">
+                            <div class="col-4"><label>Fecha:</label></div>
+                            <div class="col-8">
+                                <input type="datetime-local" class="form-control" [(ngModel)]="contract.date" [disabled]="mode==1"
+                                formControlName="date" 
+                                [class.is-invalid]="theFormGroup.get('date').invalid && (theFormGroup.get('date').dirty || theFormGroup.get('date').touched || trySend)"
+                                [class.is-valid]="theFormGroup.get('date').valid && (theFormGroup.get('date').dirty || theFormGroup.get('date').touched)"
+                                />
+                                <!-- Mensajes de validación -->
+                                <div *ngIf="theFormGroup.get('date').errors && (theFormGroup.get('date').dirty || theFormGroup.get('date').touched || trySend)" class="invalid-tooltip">
+                                    <strong *ngIf="theFormGroup.get('date').errors.required">Requerido</strong>
+                                    <strong *ngIf="theFormGroup.get('date').errors.pattern">Formato inválido</strong>
+                                </div>
+                                <div *ngIf="theFormGroup.get('date').valid && (theFormGroup.get('date').dirty || theFormGroup.get('date').touched)" class="valid-tooltip">
+                                    ¡Correcto!
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <!--<div class="row mb-1">
-                        <div class="col-4"><label>Cliente:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="contract.customer_id" [disabled]="mode==1"/> 
+                        <!--CLIENTE ID-->
+                        <div class="row mb-1">
+                            <div class="col-4"><label>Cliente:</label></div>
+                            <div class="col-8">
+                                <input type="text" class="form-control" [(ngModel)]="contract.customer_id" [disabled]="mode==1"
+                                formControlName="customer_id"
+                                [class.is-invalid]="theFormGroup.get('customer_id').invalid && (theFormGroup.get('customer_id').dirty || theFormGroup.get('customer_id').touched || trySend)"
+                                [class.is-valid]="theFormGroup.get('customer_id').valid && (theFormGroup.get('customer_id').dirty || theFormGroup.get('customer_id').touched)"
+                                />
+                                <!-- Mensajes de validación -->
+                                <div *ngIf="theFormGroup.get('customer_id').errors && (theFormGroup.get('customer_id').dirty || theFormGroup.get('customer_id').touched || trySend)" class="invalid-tooltip">
+                                    <strong *ngIf="theFormGroup.get('customer_id').errors.required">Requerido</strong>
+                                    <strong *ngIf="theFormGroup.get('customer_id').errors.min">Debe ser un número mayor o igual a 1</strong>
+                                </div>
+                                <div *ngIf="theFormGroup.get('customer_id').valid && (theFormGroup.get('customer_id').dirty || theFormGroup.get('customer_id').touched)" class="valid-tooltip">
+                                    ¡Correcto!
+                                </div> 
+                            </div>
                         </div>
-                    </div>-->
-                    <div class="row">
-                        <div class="col-4">
-                            
-                        </div>
-                        <div class="col-8">
-                            <button *ngIf="mode==2" (click)="create()" type="button" class="btn btn-outline-info btn-lgn btn-block">Crear</button>
-                            <button *ngIf="mode==3" (click)="update()" type="button" class="btn btn-outline-success btn-lgn btn-block">Actualizar</button>
-                        </div>
+                        <!--BUTTONS-->
+                        <div class="row">
+                            <div class="col-4">
+                                
+                            </div>
+                            <div class="col-8">
+                                <button *ngIf="mode==2" (click)="create()" type="button" class="btn btn-outline-info btn-lgn btn-block">Crear</button>
+                                <button *ngIf="mode==3" (click)="update()" type="button" class="btn btn-outline-success btn-lgn btn-block">Actualizar</button>
+                            </div>
 
+                        </div>
                     </div>
                 </div>
-               </div>
+            </form>
             </div>
         </div>
     </div>

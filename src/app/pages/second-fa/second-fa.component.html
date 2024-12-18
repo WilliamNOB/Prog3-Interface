@@ -1,0 +1,78 @@
+<div class="header bg-gradient-primary py-7 py-lg-8">
+    <div class="container">
+      <div class="header-body text-center mb-7">
+        <div class="row justify-content-center">
+          <div class="col-lg-5 col-md-6">
+            <h1 class="text-white">Autenticación de Segundo Factor</h1>
+            <p class="text-lead text-light">Introduce el código que se envió a tu correo electrónico para continuar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="separator separator-bottom separator-skew zindex-100">
+      <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+      </svg>
+    </div>
+  </div>
+  
+  <!-- Page content -->
+  <div class="container mt--8 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-5 col-md-7">
+        <div class="card bg-secondary shadow border-0">
+          <div class="card-body px-lg-5 py-lg-5">
+            <div class="text-center text-muted mb-4">
+              <small>Verificar Código 2FA</small>
+            </div>
+            <form (ngSubmit)="verify2FA()">
+              <!-- Email (readonly) -->
+              <div class="form-group mb-3">
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                  </div>
+                  <input
+                    class="form-control"
+                    placeholder="Correo electrónico"
+                    type="email"
+                    [(ngModel)]="email"
+                    />
+                </div>
+              </div>
+              <!-- Código 2FA -->
+              <div class="form-group mb-3">
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-key-25"></i></span>
+                  </div>
+                  <input
+                    class="form-control"
+                    placeholder="Código de verificación"
+                    type="text"
+                    [(ngModel)]="token2FA"
+                    name="token2FA"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary my-4">
+                  Verificar Código
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-6">
+            <a class="text-light"><small>Reenviar código</small></a>
+          </div>
+          <div class="col-6 text-right">
+            <a class="text-light"><small>Volver al inicio</small></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

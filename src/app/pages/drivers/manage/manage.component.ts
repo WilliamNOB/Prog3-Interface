@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Driver } from 'src/app/models/driver.model';
 import { DriverService } from 'src/app/services/driver.service';
@@ -13,9 +13,12 @@ import Swal from 'sweetalert2';
 export class ManageComponent implements OnInit {
   mode:number //mode=1 -> View, mode=2 -> create, mode=3-> update
   drivers:Driver
+  theFormGroup: FormGroup;
+  trySend: boolean
   constructor(private activatedRoute:ActivatedRoute, 
     private driverService:DriverService,
-    private router:Router) { 
+    private router:Router,
+    private theFormBuilder: FormBuilder) { 
     this.mode=1;
     this.drivers={
       id:0,
@@ -26,6 +29,8 @@ export class ManageComponent implements OnInit {
       password:"",
       name:""
     };
+    this.configFormGroup();
+    this.trySend = false;
   }
 
   ngOnInit(): void {
@@ -50,6 +55,10 @@ export class ManageComponent implements OnInit {
   }
 
   create(){
+    this.trySend =true
+    if (this.theFormGroup.invalid){
+      Swal.fire("Error", "Por favor llenar corractemente los campos", "error")
+    }else{
     Swal.fire({
       title: "¿Quieres guardar los cambios?",
       showDenyButton: true,
@@ -67,8 +76,14 @@ export class ManageComponent implements OnInit {
         Swal.fire("Los cambios no se guardaron", "", "info");
       }
     });
+    }   
   }
+
   update(){
+    this.trySend=true
+    if (this.theFormGroup.invalid){
+      Swal.fire("Error", "Por favor llenar corractemente los campos", "error")
+    }else{
     Swal.fire({
       title: "¿Quieres guardar los cambios?",
       showDenyButton: true,
@@ -86,6 +101,35 @@ export class ManageComponent implements OnInit {
         Swal.fire("Los cambios no se guardaron", "", "info");
       }
     });
+    }
+  }
+
+  configFormGroup(){
+    this.theFormGroup = this.theFormBuilder.group({
+      license: ['',[Validators.required,Validators.min(1),Validators.maxLength(20)]],
+      license_type: ['',[Validators.required,Validators.pattern(/^(B1|B2|B3|C1|C2|C3)$/)]],
+      name: ['',[]],
+      email: ['',[Validators.email]],
+      password: ['',[]]
+    });
+  }
+
+  get getTheFormGroup(){
+    return this.theFormGroup.controls
+  }
+
+  setFormMode() {
+    if (this.mode === 1) {
+      // Visualizar: Deshabilitar todos los campos
+      this.theFormGroup.disable();
+    } else if (this.mode === 2) {
+      // Crear: Habilitar todos los campos, incluido el ID
+      this.theFormGroup.enable();
+    } else if (this.mode === 3) {
+      // Actualizar: Habilitar todos los campos excepto el ID
+      this.theFormGroup.enable();
+      //this.theFormGroup.controls['id'].disable();
+    }
   }
 
 }

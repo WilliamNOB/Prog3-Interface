@@ -1,4 +1,4 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
    
 </div>
 <!-- Page content -->
@@ -12,36 +12,92 @@
                     <h2 *ngIf="mode==2">Crear</h2>
                     <h2 *ngIf="mode==3">Actualizar</h2>
                 </div>
-               <div class="card-body">
-                <div class="container">
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Id:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="owners.id" disabled/>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-4"><label>usuario id:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="owners.user_id" disabled/>
-                            <input type="text" class="form-control" [(ngModel)]="owners.name" placeholder="Nombre"/> 
-                            <input type="text" class="form-control" [(ngModel)]="owners.email" placeholder="Correo electrónico"/> 
-                            <input type="text" class="form-control" [(ngModel)]="owners.password" placeholder="Contraseña"/> 
+                <form [formGroup] ="theFormGroup">
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row mb-1">
+                                <div class="col-4"><label>Id:</label></div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" [(ngModel)]="owners.id" disabled/>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-4"><label>Usuario Id:</label></div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" [(ngModel)]="owners.user_id" disabled/>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-4">
+                                    <label for="name" class="form-label">Nombre:</label>
+                                </div>
+                                <div class="col-8 position-relative">
+                                    <input type="text" id="name" class="form-control" [(ngModel)]="owners.name" [disabled]="mode==1" 
+                                    formControlName="name"
+                                    [class.is-invalid]="theFormGroup.get('name').errors && (theFormGroup.get('name').dirty || theFormGroup.get('name').touched)" 
+                                    [class.is-valid]="!theFormGroup.get('name').errors && (theFormGroup.get('name').dirty || theFormGroup.get('name').touched)" 
+                                    />
+                                    <div *ngIf="theFormGroup.get('name').errors && (theFormGroup.get('name').dirty || theFormGroup.get('name').touched)" class="invalid-feedback">
+                                        <strong *ngIf="theFormGroup.get('name').errors.required">Requerido</strong>
+                                        <strong *ngIf="theFormGroup.get('name').errors.maxlength">Máximo 255 caracteres</strong>
+                                    </div>
+                                    <div *ngIf="!theFormGroup.get('name').errors && (theFormGroup.get('name').dirty || theFormGroup.get('name').touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-4">
+                                    <label for="email" class="form-label">Correo Electrónico:</label>
+                                </div>
+                                <div class="col-8 position-relative">
+                                    <input type="email" id="email" class="form-control" [(ngModel)]="owners.email" [disabled]="mode==1" 
+                                    formControlName="email"
+                                    [class.is-invalid]="theFormGroup.get('email').errors && (theFormGroup.get('email').dirty || theFormGroup.get('email').touched)" 
+                                    [class.is-valid]="!theFormGroup.get('email').errors && (theFormGroup.get('email').dirty || theFormGroup.get('email').touched)" 
+                                    />
+                                    <div *ngIf="theFormGroup.get('email').errors && (theFormGroup.get('email').dirty || theFormGroup.get('email').touched)" class="invalid-feedback">
+                                        <strong *ngIf="theFormGroup.get('email').errors.required">Requerido</strong>
+                                        <strong *ngIf="theFormGroup.get('email').errors.email">Formato de correo inválido</strong>
+                                    </div>
+                                    <div *ngIf="!theFormGroup.get('email').errors && (theFormGroup.get('email').dirty || theFormGroup.get('email').touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-4">
+                                    <label for="password" class="form-label">Contraseña:</label>
+                                </div>
+                                <div class="col-8 position-relative">
+                                    <input type="password" id="password" class="form-control" [(ngModel)]="owners.password" [disabled]="mode==1" 
+                                    formControlName="password"
+                                    [class.is-invalid]="theFormGroup.get('password').errors && (theFormGroup.get('password').dirty || theFormGroup.get('password').touched)" 
+                                    [class.is-valid]="!theFormGroup.get('password').errors && (theFormGroup.get('password').dirty || theFormGroup.get('password').touched)" 
+                                    />
+                                    <div *ngIf="theFormGroup.get('password').errors && (theFormGroup.get('password').dirty || theFormGroup.get('password').touched)" class="invalid-feedback">
+                                        <strong *ngIf="theFormGroup.get('password').errors.required">Requerido</strong>
+                                        <strong *ngIf="theFormGroup.get('password').errors.minlength">Mínimo 8 caracteres</strong>
+                                        <strong *ngIf="theFormGroup.get('password').errors.maxlength">Máximo 255 caracteres</strong>
+                                    </div>
+                                    <div *ngIf="!theFormGroup.get('password').errors && (theFormGroup.get('password').dirty || theFormGroup.get('password').touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    
+                                </div>
+                                <div class="col-8">
+                                    <button *ngIf="mode==2" (click)="create()" type="button" class="btn btn-outline-info btn-lgn btn-block">Crear</button>
+                                    <button *ngIf="mode==3" (click)="update()" type="button" class="btn btn-outline-success btn-lgn btn-block">Actualizar</button>
+                                </div>
 
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-4">
-                            
-                        </div>
-                        <div class="col-8">
-                            <button *ngIf="mode==2" (click)="create()" type="button" class="btn btn-outline-info btn-lgn btn-block">Crear</button>
-                            <button *ngIf="mode==3" (click)="update()" type="button" class="btn btn-outline-success btn-lgn btn-block">Actualizar</button>
-                        </div>
-
-                    </div>
-                </div>
-               </div>
+                </form>
             </div>
         </div>
     </div>

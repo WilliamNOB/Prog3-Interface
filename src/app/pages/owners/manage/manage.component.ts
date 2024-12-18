@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Owner } from 'src/app/models/owner.model';
 import { OwnerService } from 'src/app/services/owner.service';
@@ -12,9 +13,12 @@ import Swal from 'sweetalert2';
 export class ManageComponent implements OnInit {
   mode:number //mode=1 -> View, mode=2 -> create, mode=3-> update
   owners:Owner
+  theFormGroup: FormGroup;
+  trySend: boolean
   constructor(private activatedRoute:ActivatedRoute, 
     private ownerservice:OwnerService,
-    private router:Router) { 
+    private router:Router,
+    private theFormBuilder: FormBuilder) { 
     this.mode=1;
     this.owners={
       id:0,
@@ -23,6 +27,8 @@ export class ManageComponent implements OnInit {
       password:"",
       name:""
     };
+    this.configFormGroup();
+    this.trySend = false;
   }
 
   ngOnInit(): void {
@@ -47,6 +53,10 @@ export class ManageComponent implements OnInit {
   }
 
   create(){
+    this.trySend=true
+    if (this.theFormGroup.invalid){
+      Swal.fire("Error", "Por favor llenar corractemente los campos", "error")
+    }else{
     Swal.fire({
       title: "¿Quieres guardar los cambios?",
       showDenyButton: true,
@@ -65,7 +75,12 @@ export class ManageComponent implements OnInit {
       }
     });
   }
+  }
   update(){
+    this.trySend=true
+    if (this.theFormGroup.invalid){
+      Swal.fire("Error", "Por favor llenar corractemente los campos", "error")
+    }else{
     Swal.fire({
       title: "¿Quieres guardar los cambios?",
       showDenyButton: true,
@@ -84,5 +99,31 @@ export class ManageComponent implements OnInit {
       }
     });
   }
+  }
 
+  configFormGroup(){
+    this.theFormGroup = this.theFormBuilder.group({
+      name: [this.owners.name,[Validators.required, Validators.maxLength(255),],],
+      email: [this.owners.email,[Validators.required,Validators.email,],],
+      password: [this.owners.password,[Validators.required,Validators.minLength(8),Validators.maxLength(255),],],
+    });
+  }
+
+  get getTheFormGroup(){
+    return this.theFormGroup.controls
+  }
+
+  setFormMode() {
+    if (this.mode === 1) {
+      // Visualizar: Deshabilitar todos los campos
+      this.theFormGroup.disable();
+    } else if (this.mode === 2) {
+      // Crear: Habilitar todos los campos, incluido el ID
+      this.theFormGroup.enable();
+    } else if (this.mode === 3) {
+      // Actualizar: Habilitar todos los campos excepto el ID
+      this.theFormGroup.enable();
+      //this.theFormGroup.controls['id'].disable();
+    }
+  }
 }

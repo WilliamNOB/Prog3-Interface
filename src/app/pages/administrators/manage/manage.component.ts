@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Administrator } from 'src/app/models/administrator.model';
+import { Service } from 'src/app/models/service.model';
 import { AdministratorService } from 'src/app/services/administrator.service';
+import { ServiceService } from 'src/app/services/service.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,18 +15,33 @@ import Swal from 'sweetalert2';
 export class ManageComponent implements OnInit {
   mode:number //mode=1 -> View, mode=2 -> create, mode=3-> update
   administrator:Administrator
+//trysend:boolean
+ //theFormGroup:FormGroup
+  service:Service[]
+
   constructor(private activatedRoute:ActivatedRoute, 
     private administratorService:AdministratorService,
-    private router:Router) { 
+    private router:Router, private theFormBuilder:FormBuilder, private serviceService: ServiceService) { 
     this.mode=1;
-    this.administrator={
+  // this.trysend=false;
+    this.service=[];
+    //this.configFormGroup();
+
+    this.administrator={ 
       id:0,
       user_id:"",
       //service_id: 0,
       email:"",
       password:"",
-      name:""
+      name:"",
+      service:{id:0, amount:0, date_service:new Date, tranch_id:0, contract_id:0}
     };
+  }
+
+  servicesList(){
+    this.serviceService.list().subscribe(data =>{
+      this.service=data
+    })
   }
 
   ngOnInit(): void {
@@ -40,7 +57,12 @@ export class ManageComponent implements OnInit {
       this.administrator.id = this.activatedRoute.snapshot.params.id
       this.getAdministrator(this.administrator.id)
     }
+    this.servicesList();
   }
+
+
+    
+  
   getAdministrator(id:number){
     this.administratorService.view(id).subscribe(data=>{
       this.administrator=data //El JSON corresponde a un dato

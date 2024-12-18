@@ -1,4 +1,4 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
    
 </div>
 <!-- Page content -->
@@ -12,38 +12,65 @@
                     <h2 *ngIf="mode==2">Crear</h2>
                     <h2 *ngIf="mode==3">Actualizar</h2>
                 </div>
-               <div class="card-body">
-                <div class="container">
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Id:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="route.id" disabled/>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Contrato:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="route.contract_id" [disabled]="mode==1"/>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Vehiculo:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="route.vehicle_id" [disabled]="mode==1"/> 
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">
-                            
-                        </div>
-                        <div class="col-8">
-                            <button *ngIf="mode==2" (click)="create()" type="button" class="btn btn-outline-info btn-lgn btn-block">Crear</button>
-                            <button *ngIf="mode==3" (click)="update()" type="button" class="btn btn-outline-success btn-lgn btn-block">Actualizar</button>
-                        </div>
+                <form [formGroup] ="theFormGroup">
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row mb-1">
+                                <div class="col-4"><label>Id:</label></div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" [(ngModel)]="route.id" disabled/>
+                                </div>
+                            </div>
+                            <!--CONTRATO ID-->
+                            <div class="row mb-1">
+                                <div class="col-4"><label>Contrato:</label></div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" [(ngModel)]="route.contract_id" [disabled]="mode==1"
+                                    formControlName="contract_id"
+                                    [class.is-invalid]="theFormGroup.get('contract_id').errors && (theFormGroup.get('contract_id').dirty || theFormGroup.get('contract_id').touched)" 
+                                    [class.is-valid]="!theFormGroup.get('contract_id').errors && (theFormGroup.get('contract_id').dirty || theFormGroup.get('contract_id').touched)" 
+                                    />
+                                    <div *ngIf="theFormGroup.get('contract_id').errors && (theFormGroup.get('contract_id').dirty || theFormGroup.get('contract_id').touched)" class="invalid-feedback">
+                                        <strong *ngIf="theFormGroup.get('contract_id').errors.required">Requerido</strong>
+                                        <strong *ngIf="theFormGroup.get('contract_id').errors.pattern">Debe ser un número válido</strong>
+                                        <strong *ngIf="theFormGroup.get('contract_id').errors.min">El valor debe ser mayor que 0</strong>
+                                    </div>
+                                    <div *ngIf="!theFormGroup.get('contract_id').errors && (theFormGroup.get('contract_id').dirty || theFormGroup.get('contract_id').touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-4"><label>Vehiculo:</label></div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" [(ngModel)]="route.vehicle_id" [disabled]="mode==1"
+                                    formControlName="vehicle_id"
+                                    [class.is-invalid]="theFormGroup.get('vehicle_id').errors && (theFormGroup.get('vehicle_id').dirty || theFormGroup.get('vehicle_id').touched)" 
+                                    [class.is-valid]="!theFormGroup.get('vehicle_id').errors && (theFormGroup.get('vehicle_id').dirty || theFormGroup.get('vehicle_id').touched)" 
+                                    />
+                                    <div *ngIf="theFormGroup.get('vehicle_id').errors && (theFormGroup.get('vehicle_id').dirty || theFormGroup.get('vehicle_id').touched)" class="invalid-feedback">
+                                        <strong *ngIf="theFormGroup.get('vehicle_id').errors.required">Requerido</strong>
+                                        <strong *ngIf="theFormGroup.get('vehicle_id').errors.pattern">Debe ser un número válido</strong>
+                                        <strong *ngIf="theFormGroup.get('vehicle_id').errors.min">El valor debe ser mayor que 0</strong>
+                                    </div>
+                                    <div *ngIf="!theFormGroup.get('vehicle_id').errors && (theFormGroup.get('vehicle_id').dirty || theFormGroup.get('vehicle_id').touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    
+                                </div>
+                                <div class="col-8">
+                                    <button *ngIf="mode==2" (click)="create()" type="button" class="btn btn-outline-info btn-lgn btn-block">Crear</button>
+                                    <button *ngIf="mode==3" (click)="update()" type="button" class="btn btn-outline-success btn-lgn btn-block">Actualizar</button>
+                                </div>
 
+                            </div>
+                        </div>
                     </div>
-                </div>
-               </div>
+                </form>    
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8"></div>
 <!-- page content -->
 <div class="container-fluid mt--7">
   <div class="row">
@@ -24,9 +24,9 @@
                 <th scope="col-2">Fecha de pago</th>
                 <th scope="col-3">Monto total</th>
                 <th scope="col-2">Estado</th>
-                <th scope="col-2">Cuotas</th>
-                <th scope="col-2">Id de pago</th>
-                <th scope="col-2">Id de gasto</th>
+               <th scope="col-2">Cuotas</th>
+               <!--<th scope="col-2">Id de pago</th>--> 
+               <!--<th scope="col-2">Id de gasto</th>-->
               </tr>
             </thead>
             <tbody>
@@ -35,8 +35,9 @@
                 <td>{{ bill.date_bill | date }}</td>
                 <td>{{ bill.total_amount}}</td>
                 <td>{{ bill.state}}</td>
-                <td>{{ bill.payment_id}}</td>
-                <td>{{ bill.spent_id }}</td>
+                <td>{{ bill.quota}}</td>
+              <!--<td>{{ bill.payment_id}}</td>--> 
+               <!-- <td>{{ bill.spent_id }}</td>-->
 
                 <td>
                   <button

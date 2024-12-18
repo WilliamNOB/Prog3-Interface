@@ -1,4 +1,4 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
    
 </div>
 <!-- Page content -->
@@ -12,48 +12,106 @@
                     <h2 *ngIf="mode==2">Crear</h2>
                     <h2 *ngIf="mode==3">Actualizar</h2>
                 </div>
-               <div class="card-body">
-                <div class="container">
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Id:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="drivers.id" disabled/>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-4"><label>usuario id:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="drivers.user_id" disabled/>
-                            <input type="text" class="form-control" [(ngModel)]="drivers.name" placeholder="Nombre"/> 
-                            <input type="text" class="form-control" [(ngModel)]="drivers.email" placeholder="Correo electrónico"/> 
-                            <input type="text" class="form-control" [(ngModel)]="drivers.password" placeholder="Contraseña"/> 
+                <form [formGroup] ="theFormGroup">
+                    <div class="card-body">
+                        <div class="container">
+                            <!--ID-->
+                            <div class="row mb-1">
+                                <div class="col-4"><label>Id:</label></div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" [(ngModel)]="drivers.id" disabled/>
+                                </div>
+                            </div>
+                            <!--USUARIO ID-->
+                            <div class="row mb-1">
+                                <div class="col-4"><label>usuario id:</label></div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" [(ngModel)]="drivers.user_id" disabled />
+                                    <!-- Nombre -->
+                                    <input type="text" id="name" class="form-control" [(ngModel)]="drivers.name" formControlName="name"
+                                        placeholder="Nombre"
+                                        [class.is-invalid]="getTheFormGroup.name.errors && (getTheFormGroup.name.dirty || getTheFormGroup.name.touched || trySend)"
+                                        [class.is-valid]="!getTheFormGroup.name.errors && (getTheFormGroup.name.dirty || getTheFormGroup.name.touched)" />
+                                    <div *ngIf="getTheFormGroup.name.errors && (getTheFormGroup.name.dirty || getTheFormGroup.name.touched || trySend)" class="invalid-feedback">
+                                        <strong>Campo inválido</strong>
+                                    </div>
+                                    <div *ngIf="!getTheFormGroup.name.errors && (getTheFormGroup.name.dirty || getTheFormGroup.name.touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                    <!-- Email -->
+                                    <input type="text" id="email" class="form-control" [(ngModel)]="drivers.email" formControlName="email"
+                                        placeholder="Correo electrónico"
+                                        [class.is-invalid]="getTheFormGroup.email.errors && (getTheFormGroup.email.dirty || getTheFormGroup.email.touched || trySend)"
+                                        [class.is-valid]="!getTheFormGroup.email.errors && (getTheFormGroup.email.dirty || getTheFormGroup.email.touched)" />
+                                    <div *ngIf="getTheFormGroup.email.errors && (getTheFormGroup.email.dirty || getTheFormGroup.email.touched || trySend)" class="invalid-feedback">
+                                        <strong *ngIf="getTheFormGroup.email.errors.email">Correo inválido</strong>
+                                    </div>
+                                    <div *ngIf="!getTheFormGroup.email.errors && (getTheFormGroup.email.dirty || getTheFormGroup.email.touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                    <!-- Contraseña -->
+                                    <input type="text" id="password" class="form-control" [(ngModel)]="drivers.password" formControlName="password"
+                                        placeholder="Contraseña"
+                                        [class.is-invalid]="getTheFormGroup.password.errors && (getTheFormGroup.password.dirty || getTheFormGroup.password.touched || trySend)"
+                                        [class.is-valid]="!getTheFormGroup.password.errors && (getTheFormGroup.password.dirty || getTheFormGroup.password.touched)" />
+                                    <div *ngIf="getTheFormGroup.password.errors && (getTheFormGroup.password.dirty || getTheFormGroup.password.touched || trySend)" class="invalid-feedback">
+                                        <strong>Campo inválido</strong>
+                                    </div>
+                                    <div *ngIf="!getTheFormGroup.password.errors && (getTheFormGroup.password.dirty || getTheFormGroup.password.touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
 
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-4"><label>licencia:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="drivers.license" [disabled]="mode==1"/> 
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Tipo de licencia:</label></div>
-                        <div class="col-8">
-                            <input type="datetime" class="form-control" [(ngModel)]="drivers.license_type" [disabled]="mode==1"/> 
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">
-                            
-                        </div>
-                        <div class="col-8">
-                            <button *ngIf="mode==2" (click)="create()" type="button" class="btn btn-outline-info btn-lgn btn-block">Crear</button>
-                            <button *ngIf="mode==3" (click)="update()" type="button" class="btn btn-outline-success btn-lgn btn-block">Actualizar</button>
-                        </div>
+                                </div>
+                            </div>
+                            <!--LICENCIA-->
+                            <div class="row mb-1">
+                                <div class="col-4"><label>licencia:</label></div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" [(ngModel)]="drivers.license" [disabled]="mode==1"
+                                    formControlName="license"
+                                        [class.is-invalid]="getTheFormGroup.license.errors && (getTheFormGroup.license.dirty || getTheFormGroup.license.touched || trySend)"
+                                        [class.is-valid]="!getTheFormGroup.license.errors && (getTheFormGroup.license.dirty || getTheFormGroup.license.touched)"
+                                         />
+                                    <div *ngIf="getTheFormGroup.license.errors && (getTheFormGroup.license.dirty || getTheFormGroup.license.touched || trySend)" class="invalid-feedback">
+                                        <strong *ngIf="getTheFormGroup.license.errors.required">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.license.errors.min">Debe ser mayor a 0</strong>
+                                        <strong *ngIf="getTheFormGroup.license.errors.maxlength">Máximo 20 caracteres</strong>
+                                    </div>
+                                    <div *ngIf="!getTheFormGroup.license.errors && (getTheFormGroup.license.dirty || getTheFormGroup.license.touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div> 
+                                </div>
+                            </div>
+                            <!--TIPO LICENCIA-->
+                            <div class="row mb-1">
+                                <div class="col-4"><label>Tipo de licencia:</label></div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" [(ngModel)]="drivers.license_type" [disabled]="mode==1"
+                                    formControlName="license_type"
+                                        [class.is-invalid]="getTheFormGroup.license_type.errors && (getTheFormGroup.license_type.dirty || getTheFormGroup.license_type.touched || trySend)"
+                                        [class.is-valid]="!getTheFormGroup.license_type.errors && (getTheFormGroup.license_type.dirty || getTheFormGroup.license_type.touched)" />
+                                    <div *ngIf="getTheFormGroup.license_type.errors && (getTheFormGroup.license_type.dirty || getTheFormGroup.license_type.touched || trySend)" class="invalid-feedback">
+                                        <strong *ngIf="getTheFormGroup.license_type.errors.required">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.license_type.errors.pattern">Formato inválido</strong>
+                                    </div>
+                                    <div *ngIf="!getTheFormGroup.license_type.errors && (getTheFormGroup.license_type.dirty || getTheFormGroup.license_type.touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    
+                                </div>
+                                <div class="col-8">
+                                    <button *ngIf="mode==2" (click)="create()" type="button" class="btn btn-outline-info btn-lgn btn-block">Crear</button>
+                                    <button *ngIf="mode==3" (click)="update()" type="button" class="btn btn-outline-success btn-lgn btn-block">Actualizar</button>
+                                </div>
 
+                            </div>
+                        </div>
                     </div>
-                </div>
-               </div>
+                </form>    
             </div>
         </div>
     </div>

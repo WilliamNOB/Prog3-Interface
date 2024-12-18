@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Bill } from 'src/app/models/bill.model';
+import { Quota } from 'src/app/models/quota.model';
+import { Spent } from 'src/app/models/spent.model';
 import { BillService } from 'src/app/services/bill.service';
+import { QuotaService } from 'src/app/services/quota.service';
+import { SpentService } from 'src/app/services/spent.service';
 import Swal from 'sweetalert2';
 
 @Component({ 
@@ -15,23 +19,44 @@ export class ManageComponent implements OnInit {
   bill: Bill;
   theFormGroup: FormGroup; //! EL POLICIA QUIEN HACE CUMPIR LAS REGLAS
   trySend: boolean;
+  spent:Spent[];
+  quotas:Quota[];
 
   constructor(
     private billsService: BillService,
     private router: Router,
     private activateRoute: ActivatedRoute,
-    private theFormBuilder: FormBuilder 
+    private theFormBuilder: FormBuilder,
+    private quotaService: QuotaService, 
+    private spentService: SpentService
   ) {
     this.mode = 0;
+    this.configFormGroup();
+    this.trySend = false;
+    this.quotas = [];
+    this.spent = [];
+
     this.bill = { 
       id: 0, 
       date_bill: new Date(), 
       total_amount: 0, state: " ", 
-      quotas: 0,
-      payment_id:0,
-      spent_id:0,
+      quota:0,
+      quotas:{payment_date: new Date(),  contract_id:0},
+      spents:{travel_expense_id:0,  service_id:0}
     };
   }
+
+
+  quotasList(){
+    this.quotaService.list().subscribe(data =>{
+      this.quotas=data
+  })
+}
+spentsList(){
+  this.spentService.list().subscribe(data =>{
+    this.spent=data
+})
+}
 
   ngOnInit(): void {
     const currentUrl = this.activateRoute.snapshot.url.join("/");
@@ -51,6 +76,9 @@ export class ManageComponent implements OnInit {
       this.bill.id = this.activateRoute.snapshot.params.id;
       this.getBill(this.bill.id);
     }
+    this.quotasList();
+    this.spentsList();
+   // this.setFormMode();
   }
 
   configFormGroup() {
@@ -59,8 +87,8 @@ export class ManageComponent implements OnInit {
     total_amount: [0, [Validators.required, Validators.pattern("^[0-9]+$")]],
     state:["", [Validators.required]],
     quotas: [0, [Validators.required,Validators.min(1),Validators.max(36)]],
-    payment_id: [0, [Validators.required, Validators.pattern("^[0-9]+$")]],
-    spent_id: [0, [Validators.required, Validators.pattern("^[0-9]+$")]],
+   /* payment_id: [0, [Validators.required, Validators.pattern("^[0-9]+$")]],
+    spent_id: [0, [Validators.required, Validators.pattern("^[0-9]+$")]],*/
   });
   }
 get getTheFormGroup() {

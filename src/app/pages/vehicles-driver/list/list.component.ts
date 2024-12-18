@@ -59,8 +59,11 @@ export class ListComponent implements OnInit {
           swalWithBootstrapButtons.fire({
             title: "Eliminado!",
             text: "Su registro ha sido eliminado.",
-            icon: "success"
-          })})
+            icon: "success",
+            
+          })
+          this.ngOnInit()
+        })
         } else if (
           /* Read more about handling dismissals below */
           result.dismiss === Swal.DismissReason.cancel

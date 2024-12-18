@@ -1,4 +1,4 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
    
 </div>
 <!-- Page content -->
@@ -12,51 +12,97 @@
                     <h2 *ngIf="mode==2">Crear</h2>
                     <h2 *ngIf="mode==3">Actualizar</h2>
                 </div>
-               <div class="card-body">
-                <div class="container">
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Id:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="order.id" disabled/>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Tipo:</label></div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" [(ngModel)]="order.type" [disabled]="mode==1"/>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Fecha de orden:</label></div>
-                        <div class="col-8">
-                            <input type="datetime" class="form-control" [(ngModel)]="order.date_order" [disabled]="mode==1"/> 
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Dirección id:</label></div>
-                        <div class="col-8">
-                            <input type="number" class="form-control" [(ngModel)]="order.address_id" [disabled]="mode==1"/> 
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-4"><label>Ruta id:</label></div>
-                        <div class="col-8">
-                            <input type="number" class="form-control" [(ngModel)]="order.route_id" [disabled]="mode==1"/> 
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-4">
+                <form [formGroup] ="theFormGroup">
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row mb-1">
+                                <!--ID-->
+                                <div class="col-4"><label>Id:</label></div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" [(ngModel)]="order.id" disabled/>
+                                </div>
+                            </div>
+                            <!--TIPO-->
+                            <div class="row mb-1">
+                                <div class="col-4"><label>Tipo:</label></div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" [(ngModel)]="order.type" [disabled]="mode==1"
+                                    ormControlName="type"
+                                        [class.is-invalid]="getTheFormGroup.type.errors && (getTheFormGroup.type.dirty || getTheFormGroup.type.touched || trySend)"
+                                        [class.is-valid]="!getTheFormGroup.type.errors && (getTheFormGroup.type.dirty || getTheFormGroup.type.touched)" />
+                                    <div *ngIf="getTheFormGroup.type.errors && (getTheFormGroup.type.dirty || getTheFormGroup.type.touched || trySend)" class="invalid-feedback">
+                                        <strong *ngIf="getTheFormGroup.type.errors.required">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.type.errors.pattern">Debe ser uno de: Recogida, Transferencia, Entrega parcial, Entrega final</strong>
+                                    </div>
+                                    <div *ngIf="!getTheFormGroup.type.errors && (getTheFormGroup.type.dirty || getTheFormGroup.type.touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                </div>
+                            </div>
+                            <!--FECHA-->
+                            <div class="row mb-1">
+                                <div class="col-4"><label>Fecha de orden:</label></div>
+                                <div class="col-8">
+                                    <input type="datetime" class="form-control" [(ngModel)]="order.date_order" [disabled]="mode==1"
+                                    formControlName="date_order"
+                                    [class.is-invalid]="getTheFormGroup.date_order.errors && (getTheFormGroup.date_order.dirty || getTheFormGroup.date_order.touched || trySend)"
+                                    [class.is-valid]="!getTheFormGroup.date_order.errors && (getTheFormGroup.date_order.dirty || getTheFormGroup.date_order.touched)" />
+                                    <div *ngIf="getTheFormGroup.date_order.errors && (getTheFormGroup.date_order.dirty || getTheFormGroup.date_order.touched || trySend)" class="invalid-feedback">
+                                        <strong *ngIf="getTheFormGroup.date_order.errors.required">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.date_order.errors.pattern">Formato inválido (YYYY-MM-DD)</strong>
+                                    </div>
+                                    <div *ngIf="!getTheFormGroup.date_order.errors && (getTheFormGroup.date_order.dirty || getTheFormGroup.date_order.touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div> 
+                                </div>
+                            </div>
+                            <!--DIRECCION ID-->
+                            <div class="row mb-1">
+                                <div class="col-4"><label>Dirección id:</label></div>
+                                <div class="col-8">
+                                    <input type="number" class="form-control" [(ngModel)]="order.address_id" [disabled]="mode==1"
+                                    formControlName="address_id"
+                                    [class.is-invalid]="getTheFormGroup.address_id.errors && (getTheFormGroup.address_id.dirty || getTheFormGroup.address_id.touched || trySend)"
+                                    [class.is-valid]="!getTheFormGroup.address_id.errors && (getTheFormGroup.address_id.dirty || getTheFormGroup.address_id.touched)" />
+                                    <div *ngIf="getTheFormGroup.address_id.errors && (getTheFormGroup.address_id.dirty || getTheFormGroup.address_id.touched || trySend)" class="invalid-feedback">
+                                        <strong *ngIf="getTheFormGroup.address_id.errors.required">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.address_id.errors.min">Debe ser mayor a 0</strong>
+                                    </div>
+                                    <div *ngIf="!getTheFormGroup.address_id.errors && (getTheFormGroup.address_id.dirty || getTheFormGroup.address_id.touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                </div>
+                            </div>
+                            <!--RUTA ID-->
+                            <div class="row mb-1">
+                                <div class="col-4"><label>Ruta id:</label></div>
+                                <div class="col-8">
+                                    <input type="number" class="form-control" [(ngModel)]="order.route_id" [disabled]="mode==1"
+                                    formControlName="route_id"
+                                    [class.is-invalid]="getTheFormGroup.route_id.errors && (getTheFormGroup.route_id.dirty || getTheFormGroup.route_id.touched || trySend)"
+                                    [class.is-valid]="!getTheFormGroup.route_id.errors && (getTheFormGroup.route_id.dirty || getTheFormGroup.route_id.touched)" />
+                                    <div *ngIf="getTheFormGroup.route_id.errors && (getTheFormGroup.route_id.dirty || getTheFormGroup.route_id.touched || trySend)" class="invalid-feedback">
+                                        <strong *ngIf="getTheFormGroup.route_id.errors.required">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.route_id.errors.min">Debe ser mayor a 0</strong>
+                                    </div>
+                                    <div *ngIf="!getTheFormGroup.route_id.errors && (getTheFormGroup.route_id.dirty || getTheFormGroup.route_id.touched)" class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                </div>
+                            </div>
                             
-                        </div>
-                        <div class="col-8">
-                            <button *ngIf="mode==2" (click)="create()" type="button" class="btn btn-outline-info btn-lgn btn-block">Crear</button>
-                            <button *ngIf="mode==3" (click)="update()" type="button" class="btn btn-outline-success btn-lgn btn-block">Actualizar</button>
-                        </div>
+                            <div class="row">
+                                <div class="col-4">  
+                                </div>
+                                <div class="col-8">
+                                    <button *ngIf="mode==2" (click)="create()" type="button" class="btn btn-outline-info btn-lgn btn-block">Crear</button>
+                                    <button *ngIf="mode==3" (click)="update()" type="button" class="btn btn-outline-success btn-lgn btn-block">Actualizar</button>
+                                </div>
 
+                            </div>
+                        </div>
                     </div>
-                </div>
-               </div>
+                </form>   
             </div>
         </div>
     </div>
