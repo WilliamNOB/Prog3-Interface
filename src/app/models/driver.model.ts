@@ -1,3 +1,4 @@
+import { Spent } from "./spent.model";
 import { User } from "./user.model";
 import { VehiclesDriver } from "./vehicles-driver.model";
 
@@ -11,5 +12,6 @@ export class Driver {
     email?:string
     password?:string
     name?: String
+ 
     
 }

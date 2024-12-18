@@ -1,3 +1,5 @@
+import { Service } from "./service.model";
+
 export class Administrator {
   id?: number;
   user_id: string;
@@ -7,4 +9,5 @@ export class Administrator {
   email?:string
   password?:string
   name?: String
+  service?: Service; // crear relacion uno a uno con servicio
 }
